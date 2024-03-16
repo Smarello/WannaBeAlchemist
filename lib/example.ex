@@ -8,7 +8,8 @@ defmodule Example do
     # Example.main()
     # Example.caseExample()
     # Example.stringsExample()
-    Example.numbersExample()
+    # Example.numbersExample()
+    Example.datesExample()
     Supervisor.start_link([], strategy: :one_for_one)
   end
 
@@ -24,6 +25,7 @@ defmodule Example do
   end
 
   def caseExample do
+    IO.puts("--- Case Example ---")
     name = "John"
     status = Enum.random([:gold, :silver, :bronze, :not_a_status])
     case status do
@@ -36,12 +38,14 @@ defmodule Example do
   end
 
   def stringsExample do
+    IO.puts("--- Strings Example ---")
     IO.puts("Hello\nwelcolme\nto\nthe\nclub\n")
     IO.puts("Interpolation looks like this: \#{}")
     IO.puts(?a) #numeric unicode value of character a
   end
 
   def numbersExample do
+    IO.puts("--- Numbers Example ---")
     a = 10
     b = 2.0
     IO.puts("a + b = #{a + b}")
@@ -50,6 +54,17 @@ defmodule Example do
     IO.puts(Float.ceil(0.1, 1)) # 0.1 is 0.10000000000000000555, which is ceiled at 0.2
     IO.puts(Integer.gcd(10, 15)) # prints the greatest common divisor of 10 and 15
 
+  end
+
+  def datesExample do
+    IO.puts("--- Dates Example ---")
+    time = Time.new!(16,30,0,0)
+    date = Date.new!(2021, 12, 25)
+    datetime = DateTime.new!(date, time, "Etc/UTC")
+    IO.inspect(time)
+    IO.inspect(date)
+    IO.inspect(datetime)
+    IO.puts(datetime.day)
   end
 
 end
