@@ -11,7 +11,8 @@ defmodule Example do
     # Example.numbersExample()
     # Example.datesExample()
     # Example.timeUntilNewYear()
-    Example.tupleExample()
+    # Example.tupleExample()
+    Example.mapExample()
     Supervisor.start_link([], strategy: :one_for_one)
   end
 
@@ -92,16 +93,46 @@ defmodule Example do
     IO.puts(avg)
 
     IO.puts("Average price from #{elem(memberships,0)}, #{elem(memberships,1)} and #{elem(memberships,2)} is #{avg}")
-    user1 = {:"John", :gold	}
-    user2 = {:"Katy", :silver}
-    user3 = {:"Mark", :bronze}
-    {name, membership} = user1
-    IO.puts("#{name} has a #{membership} membership")
-    {name, membership} = user2
-    IO.puts("#{name} has a #{membership} membership")
-    {name, membership} = user3
-    IO.puts("#{name} has a #{membership} membership")
+
+    users = [
+      {:"John", :gold	},
+      {:"Katy", :silver},
+      {:"Cody", :bronze},
+      {:"Tom", :bronze}
+    ]
+    Enum.each(users, fn {name, membership} ->
+       IO.puts("#{name} has a #{membership} membership")
+      end)
+  end
+
+  def mapExample do
+    IO.puts("--- Map Example ---")
+    memberships = %{
+      gold: :gold,
+      silver: :silver,
+      bronze: :bronze,
+      none: :none
+    }
+
+    prices = %{
+      gold: 30,
+      silver: 20,
+      bronze: 10,
+      none: 0
+    }
+
+    users = [
+      {:"John", memberships.gold},
+      {:"Katy", memberships.silver},
+      {:"Cody", memberships.bronze},
+      {:"Tom", memberships.none}
+    ]
+
+    Enum.each(users, fn {name, membership} ->
+      IO.puts("#{name} has a #{memberships[membership]} membership and has to pay #{prices[membership]}$") # so atoms can be used as keys
+     end)
 
   end
+
 
 end
