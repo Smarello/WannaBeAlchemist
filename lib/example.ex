@@ -9,7 +9,8 @@ defmodule Example do
     # Example.caseExample()
     # Example.stringsExample()
     # Example.numbersExample()
-    Example.datesExample()
+    # Example.datesExample()
+    Example.timeUntilNewYear()
     Supervisor.start_link([], strategy: :one_for_one)
   end
 
@@ -65,6 +66,20 @@ defmodule Example do
     IO.inspect(date)
     IO.inspect(datetime)
     IO.puts(datetime.day)
+  end
+
+  def timeUntilNewYear do
+    IO.puts("--- Time Until New Year ---")
+    now = DateTime.utc_now
+    firtsDayOfNextYear = Date.new!(now.year + 1, 1, 1)
+    newYear = DateTime.new!(firtsDayOfNextYear, Time.new!(0,0,0), "Etc/UTC")
+    time_till = DateTime.diff(newYear, now)
+    days = div(time_till, 86_400)
+    hours = div(rem(time_till, 86_400), 3600)
+    minutes = div(rem(time_till, 3600), 60)
+    seconds = rem(time_till, 60)
+    IO.puts("#{days} days, #{hours} hours, #{minutes} minutes and #{seconds} seconds until new year")
+
   end
 
 end
