@@ -21,7 +21,9 @@ defmodule Example do
     # Example.timeUntilNewYear()
     # Example.tupleExample()
     # Example.mapExample()
-    Example.structExample()
+    # Example.structExample()
+    # Example.guessingGame()
+    Example.listsExample()
     Supervisor.start_link([], strategy: :one_for_one)
   end
 
@@ -161,6 +163,50 @@ defmodule Example do
     Enum.each(users, fn %User{name: name, membership: membership} -> # inner destructuring, not very easy to read
       IO.puts("#{name} has a #{membership.type} membership and has to pay #{membership.price}$")
     end)
+
+  end
+
+  def guessingGame do
+    IO.puts("Guess the number between 0 and 10")
+    correctNumber = :rand.uniform(11) - 1 # or  Enum.random(1..10)
+    guess = IO.gets("Enter your guess between 0 and 10: ") |> String.trim() |> Integer.parse()
+    IO.inspect(guess)
+
+    case guess do
+      # {number, ""} -> IO.puts("You entered #{number}")
+      # {number, other} -> IO.puts("You entered #{number} and #{other}")
+      {number, _} ->
+        IO.puts("You entered #{number}")
+        if (number === correctNumber) do
+          IO.puts("You guessed the correct number")
+        else
+          IO.puts("You guessed the wrong number")
+        end
+      :error -> IO.puts("You entered an invalid number")
+    end
+  end
+
+  def listsExample do
+    IO.puts("--- Lists Example ---")
+    grades = [25, 50, 75, 100]
+    newGrades = for grade <- grades, do: grade + 5
+    newGrades2 = newGrades ++ [125, 150] # append
+    newGrades3 = [0 | newGrades2] # prepend
+    IO.inspect(newGrades)
+    IO.inspect(newGrades2)
+    IO.inspect(newGrades3)
+
+    isEven = fn x -> rem(x, 2) == 0 end
+    # evenGrades = Enum.filter(newGrades3, even)
+    evenGrades = for grade <- newGrades3, isEven.(grade), do: grade # I could use Integer.is_even/1
+    IO.inspect(evenGrades)
+
+
+    # Other way to do iterate over a list
+    # for grade <- grades  do
+    #   IO.puts(grade + 5)
+    # end
+
 
   end
 
