@@ -10,7 +10,8 @@ defmodule Example do
     # Example.stringsExample()
     # Example.numbersExample()
     # Example.datesExample()
-    Example.timeUntilNewYear()
+    # Example.timeUntilNewYear()
+    Example.tupleExample()
     Supervisor.start_link([], strategy: :one_for_one)
   end
 
@@ -79,6 +80,27 @@ defmodule Example do
     minutes = div(rem(time_till, 3600), 60)
     seconds = rem(time_till, 60)
     IO.puts("#{days} days, #{hours} hours, #{minutes} minutes and #{seconds} seconds until new year")
+  end
+
+  def tupleExample do
+    IO.puts("--- Tuple Example ---")
+    memberships = {:gold, :silver}
+    memberships = Tuple.append(memberships, :bronze)
+    IO.inspect(memberships)
+    prices = {30, 20, 10}
+    avg = Tuple.sum(prices) / tuple_size(prices) # -_- very intuitive
+    IO.puts(avg)
+
+    IO.puts("Average price from #{elem(memberships,0)}, #{elem(memberships,1)} and #{elem(memberships,2)} is #{avg}")
+    user1 = {:"John", :gold	}
+    user2 = {:"Katy", :silver}
+    user3 = {:"Mark", :bronze}
+    {name, membership} = user1
+    IO.puts("#{name} has a #{membership} membership")
+    {name, membership} = user2
+    IO.puts("#{name} has a #{membership} membership")
+    {name, membership} = user3
+    IO.puts("#{name} has a #{membership} membership")
 
   end
 
