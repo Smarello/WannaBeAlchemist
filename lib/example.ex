@@ -1,3 +1,11 @@
+defmodule Membership do
+  defstruct [:type, :price]
+end
+
+defmodule User do
+  defstruct [:name, :membership]
+end
+
 defmodule Example do
   use Application
   @x 5 #define a constant
@@ -12,7 +20,8 @@ defmodule Example do
     # Example.datesExample()
     # Example.timeUntilNewYear()
     # Example.tupleExample()
-    Example.mapExample()
+    # Example.mapExample()
+    Example.structExample()
     Supervisor.start_link([], strategy: :one_for_one)
   end
 
@@ -131,6 +140,27 @@ defmodule Example do
     Enum.each(users, fn {name, membership} ->
       IO.puts("#{name} has a #{memberships[membership]} membership and has to pay #{prices[membership]}$") # so atoms can be used as keys
      end)
+
+  end
+
+  def structExample do
+    IO.puts("--- Struct Example ---")
+
+    gold_membership = %Membership{type: :gold, price: 30}
+    silver_membership = %Membership{type: :silver, price: 20}
+    bronze_membership = %Membership{type: :bronze, price: 10}
+    none_membership = %Membership{type: :none, price: 0}
+
+    users = [
+      %User{name: "Steve", membership: gold_membership},
+      %User{name: "Jenna", membership: silver_membership},
+      %User{name: "Luke", membership: bronze_membership},
+      %User{name: "Donna", membership: none_membership}
+    ]
+
+    Enum.each(users, fn %User{name: name, membership: membership} -> # inner destructuring, not very easy to read
+      IO.puts("#{name} has a #{membership.type} membership and has to pay #{membership.price}$")
+    end)
 
   end
 
