@@ -44,3 +44,31 @@ iex(1)>
 ```
 
 You can exit the interactive session by double pressing `Ctrl^C`.
+
+## Install Phoenix and create a new application
+
+Be sure that you have a valid `mix` installation by running
+
+```sh
+mix local.hex
+```
+
+It should say that there is an exising entry
+
+```sh
+Found existing entry: c:/Users/smare/.mix/archives/hex-2.0.6
+Are you sure you want to replace it with "https://builds.hex.pm/installs/1.16.0/hex-2.0.6.ez"? [Yn] y
+creating c:/Users/{your_user}/.mix/archives/hex-2.0.6
+```
+
+Run the command to install phoenix
+
+```sh
+mix archive.install hex phx_new
+```
+
+Run the command to create a new phoenix application using SQLite database
+
+```sh
+mix phx.new my_new_application --database sqlite3
+```
