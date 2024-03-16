@@ -8,7 +8,8 @@ end
 
 defmodule Example do
   use Application
-  @x 5 #define a constant
+  # define a constant
+  @x 5
 
   alias UUID
 
@@ -23,32 +24,33 @@ defmodule Example do
     # Example.mapExample()
     # Example.structExample()
     # Example.guessingGame()
-    Example.listsExample()
+    # Example.listsExample()
+    Example.functionalExample()
     Supervisor.start_link([], strategy: :one_for_one)
   end
 
   def main do
     name = "John"
     status = Enum.random([:gold, :silver, :bronze])
-    if (status === :gold) do
+
+    if status === :gold do
       IO.puts("Hello #{name}, welcolme to the club")
     else
       IO.puts("Get lost #{name}, you are not welcome here")
     end
-
   end
 
   def caseExample do
     IO.puts("--- Case Example ---")
     name = "John"
     status = Enum.random([:gold, :silver, :bronze, :not_a_status])
+
     case status do
       :gold -> IO.puts("Hello #{name}, welcolme to the VIP club")
       :silver -> IO.puts("Hello #{name}, you are a silver member, you can enter the club but you can't access the VIP area")
       :bronze -> IO.puts("Get lost #{name}, you are not welcome here")
       _ -> IO.puts("Get lost #{name}, I don't even know you")
     end
-
   end
 
   def stringsExample do
@@ -72,7 +74,7 @@ defmodule Example do
 
   def datesExample do
     IO.puts("--- Dates Example ---")
-    time = Time.new!(16,30,0,0)
+    time = Time.new!(16, 30, 0, 0)
     date = Date.new!(2021, 12, 25)
     datetime = DateTime.new!(date, time, "Etc/UTC")
     IO.inspect(time)
@@ -83,9 +85,9 @@ defmodule Example do
 
   def timeUntilNewYear do
     IO.puts("--- Time Until New Year ---")
-    now = DateTime.utc_now
+    now = DateTime.utc_now()
     firtsDayOfNextYear = Date.new!(now.year + 1, 1, 1)
-    newYear = DateTime.new!(firtsDayOfNextYear, Time.new!(0,0,0), "Etc/UTC")
+    newYear = DateTime.new!(firtsDayOfNextYear, Time.new!(0, 0, 0), "Etc/UTC")
     time_till = DateTime.diff(newYear, now)
     days = div(time_till, 86_400)
     hours = div(rem(time_till, 86_400), 3600)
@@ -106,18 +108,20 @@ defmodule Example do
     IO.puts("Average price from #{elem(memberships,0)}, #{elem(memberships,1)} and #{elem(memberships,2)} is #{avg}")
 
     users = [
-      {:"John", :gold	},
-      {:"Katy", :silver},
-      {:"Cody", :bronze},
-      {:"Tom", :bronze}
+      {:John, :gold},
+      {:Katy, :silver},
+      {:Cody, :bronze},
+      {:Tom, :bronze}
     ]
+
     Enum.each(users, fn {name, membership} ->
-       IO.puts("#{name} has a #{membership} membership")
-      end)
+      IO.puts("#{name} has a #{membership} membership")
+    end)
   end
 
   def mapExample do
     IO.puts("--- Map Example ---")
+
     memberships = %{
       gold: :gold,
       silver: :silver,
@@ -177,7 +181,8 @@ defmodule Example do
       # {number, other} -> IO.puts("You entered #{number} and #{other}")
       {number, _} ->
         IO.puts("You entered #{number}")
-        if (number === correctNumber) do
+
+        if number === correctNumber do
           IO.puts("You guessed the correct number")
         else
           IO.puts("You guessed the wrong number")
@@ -186,29 +191,73 @@ defmodule Example do
     end
   end
 
+  def is_even(number) do
+    rem(number, 2) == 0
+  end
+
   def listsExample do
     IO.puts("--- Lists Example ---")
     grades = [25, 50, 75, 100]
     newGrades = for grade <- grades, do: grade + 5
-    newGrades2 = newGrades ++ [125, 150] # append
-    newGrades3 = [0 | newGrades2] # prepend
+    # append
+    newGrades2 = newGrades ++ [125, 150]
+    # prepend
+    newGrades3 = [0 | newGrades2]
     IO.inspect(newGrades)
     IO.inspect(newGrades2)
     IO.inspect(newGrades3)
 
-    isEven = fn x -> rem(x, 2) == 0 end
-    # evenGrades = Enum.filter(newGrades3, even)
-    evenGrades = for grade <- newGrades3, isEven.(grade), do: grade # I could use Integer.is_even/1
-    IO.inspect(evenGrades)
+    # isEven = fn x -> rem(x, 2) == 0 end
+    # evenGrades = for grade <- newGrades3, isEven.(grade), do: grade # I could use Integer.is_even/1
+    # IO.inspect(evenGrades)
 
+    # evenGrades = Enum.filter(newGrades3, isEven)
+    # IO.inspect(evenGrades)
+
+    # I could use Integer.is_even/1
+    evenGrades = for grade <- newGrades3, rem(grade, 2) == 0, do: grade
+    IO.inspect(evenGrades)
 
     # Other way to do iterate over a list
     # for grade <- grades  do
     #   IO.puts(grade + 5)
     # end
-
-
   end
 
+  def sum_and_average(numbers) do
+    sum = Enum.sum(numbers)
+    # or Enum.count(numbers)
+    avg = sum / length(numbers)
+    {sum, avg}
+  end
 
+  def print_numbers(numbers) do
+    numbers |> Enum.join(", ") |> IO.puts()
+    numbers
+  end
+
+  def get_numbers_from_user do
+    IO.puts("Enter a list of numbers separated by a space:")
+    IO.gets("")
+    |> String.trim()
+    |> String.split()
+    |> Enum.map(&String.to_integer/1)
+  end
+
+  def functionalExample do
+    IO.puts("--- Functional Example ---")
+    #numbersStrings = ["1", "2", "3", "4", "5"]
+
+    #Enum.map(numbersStrings, &String.to_integer/1)
+    get_numbers_from_user()
+    |> print_numbers()
+    |> sum_and_average()
+    |> IO.inspect()
+    |> fn {sum, avg} -> IO.puts("Sum: #{sum}, Average: #{avg}") end.()
+
+
+    # IO.inspect(sum_and_average(numbers))
+
+    # Enum.each(numbers, fn x -> IO.puts(x + 2) end)
+  end
 end
