@@ -12,6 +12,10 @@ defmodule ForumPhxWeb.PageController do
     # so skip the default app layout.
     #render(conn, :users, layout: false)
     IO.puts("Users function hit!")
-    render(conn, :users, layout: false)
+    users = [
+      %{id: 1, name: "Alice", email: "alice@email.com", age: 30},
+      %{id: 2, name: "Bob", email: "bob@email.com", age: 35}
+    ]
+    render(conn, :users, users: users, layout: false)
   end
 end

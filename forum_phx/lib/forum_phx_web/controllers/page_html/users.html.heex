@@ -1,3 +1,12 @@
+<!-- The page is built using EEx templating language.
+  It is a mix of HTML and Elixir code and it's built on the backend.
+  The frontend receives the final HTML code.
+-->
 <div>
   <h1>Users page!</h1>
+  <ul>
+    <%= for user <- @users do %>
+      <li><%= user.name %> - <%= user.email %></li>
+    <% end %>
+  </ul>
 </div>
