@@ -18,4 +18,12 @@ defmodule ForumPhxWeb.PageController do
     ]
     render(conn, :users, users: users, layout: false)
   end
+
+  def users_json(conn, _params) do
+    users = [
+      %{id: 1, name: "Alice", email: "alice@email.com", age: 30},
+      %{id: 2, name: "Bob", email: "bob@email.com", age: 35}
+    ]
+    json(conn, %{users: users})
+  end
 end

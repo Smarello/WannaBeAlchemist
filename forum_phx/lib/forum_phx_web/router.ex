@@ -21,6 +21,7 @@ defmodule ForumPhxWeb.Router do
 
     get "/", PageController, :home
     get "/users", PageController, :users
+    get "/users_json", PageController, :users_json
   end
 
   # Other scopes may use custom stacks.
