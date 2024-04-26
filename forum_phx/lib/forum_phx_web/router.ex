@@ -1,3 +1,5 @@
+# This module defines the router for the ForumPhxWeb application.
+# It handles incoming requests and routes them to the appropriate controllers.
 defmodule ForumPhxWeb.Router do
   use ForumPhxWeb, :router
 
@@ -18,6 +20,7 @@ defmodule ForumPhxWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    get "/users", PageController, :users
   end
 
   # Other scopes may use custom stacks.
